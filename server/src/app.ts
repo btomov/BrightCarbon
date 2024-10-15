@@ -7,6 +7,9 @@ import rateLimit from "express-rate-limit";
 import { noteRoutes, authRoutes, versionHistoryRoutes } from "./routes";
 // Fix @utils not working TODO
 import { verifyToken } from "./utils/auth.util";
+import swaggerUi from 'swagger-ui-express';
+import yaml from 'yamljs';
+const swaggerDocument = yaml.load('./src/swagger.yaml');
 
 const app: Application = express();
 
@@ -16,6 +19,8 @@ app.use(cors());
 app.use(helmet());
 app.use(morgan("dev"));
 
+
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 const unprotectedRoutes = ["/auth/register", "/auth/login"];
 
 app.use((req, res, next) => {
