@@ -4,10 +4,7 @@ import helmet from 'helmet';
 import morgan from 'morgan';
 import { json, urlencoded } from 'body-parser';
 import rateLimit from 'express-rate-limit';
-// TODO convert to use barrel exports
-import noteRoutes from './routes/note.routes';
-import authRoutes from './routes/auth.routes'; 
-import versionHistoryRoutes from './routes/version-history.routes';
+import { noteRoutes, authRoutes, versionHistoryRoutes } from './routes';
 // Fix @utils not working TODO
 import { verifyToken } from './utils/auth.util';
 
