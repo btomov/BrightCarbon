@@ -11,7 +11,7 @@ export const verifyToken = (req: AuthenticatedRequest, res: Response, next: Next
     }
     
     try {
-      // TODO CHECK TOKEN DURATION, dont think its done here
+    // Token duration is also being verified here
     const decoded = jwt.verify(token, JWT_SECRET) as { userId: string; email: string };
     req.user = decoded;
     next();

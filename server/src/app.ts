@@ -3,8 +3,8 @@ import cors from 'cors';
 import helmet from 'helmet';
 import morgan from 'morgan';
 import { json, urlencoded } from 'body-parser';
+import rateLimit from 'express-rate-limit';
 // TODO convert to use barrel exports
-import userRoutes from './routes/user.routes';
 import noteRoutes from './routes/note.routes';
 import authRoutes from './routes/auth.routes'; 
 import versionHistoryRoutes from './routes/version-history.routes';
@@ -28,9 +28,21 @@ app.use((req, res, next) => {
   verifyToken(req, res, next);
 });
 
-app.use('/users', userRoutes);
-app.use('/auth', authRoutes);
-app.use('/notes', noteRoutes);
-app.use('/versions', versionHistoryRoutes);
+const authLimiter = rateLimit({
+  windowMs: 15 * 60 * 1000,
+  max: 10,
+  message: 'Too many login attempts, please try again after 15 minutes.',
+});
+
+const generalLimiter = rateLimit({
+  windowMs: 15 * 60 * 1000,
+  max: 100,
+  message: 'Too many requests, please try again later.',
+});
+
+app.use('/auth', authLimiter, authRoutes);
+app.use('/notes', generalLimiter, noteRoutes);
+app.use('/versions', generalLimiter, versionHistoryRoutes);
+
 
 export default app;

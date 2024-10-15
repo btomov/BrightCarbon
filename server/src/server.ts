@@ -4,7 +4,6 @@ import { mongoConnection } from './config';
 
 dotenv.config();
 
-// Start the server
 const PORT = process.env.PORT || 3000;
 
 const startServer = async () => {

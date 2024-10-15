@@ -22,7 +22,7 @@ const noteSchema: Schema = new Schema(
     isArchived: { type: Boolean, default: false },
     version: {type: Number, default: 1}
   },
-  { timestamps: true }
+  { timestamps: true, toJSON: { virtuals: true }, toObject: { virtuals: true }  }
 );
 
 noteSchema.virtual('versions', {
