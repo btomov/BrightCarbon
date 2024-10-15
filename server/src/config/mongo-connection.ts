@@ -4,7 +4,6 @@ class MongoConnection {
   private static instance: MongoConnection;
   private constructor() {}
 
-  // Function to initialize and return the instance
   static getInstance(): MongoConnection {
     if (!MongoConnection.instance) {
       MongoConnection.instance = new MongoConnection();
@@ -12,7 +11,6 @@ class MongoConnection {
     return MongoConnection.instance;
   }
 
-  // Function to connect to MongoDB
   public async connect(): Promise<void> {
     try {
       if (mongoose.connection.readyState === 0) {
