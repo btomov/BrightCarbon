@@ -4,28 +4,28 @@ import { noteController } from "../controllers";
 
 const router = Router();
 
-router.get('/', async (req: AuthenticatedRequest, res: Response) => {
+router.get("/", async (req: AuthenticatedRequest, res: Response) => {
   await noteController.getAllNotes(req, res);
 });
-  
-router.get('/:id', async (req: AuthenticatedRequest, res: Response) => {
+
+router.get("/:id", async (req: AuthenticatedRequest, res: Response) => {
   await noteController.getNoteById(req, res);
 });
 
-router.post('/', async (req: AuthenticatedRequest, res: Response) => {
+router.post("/", async (req: AuthenticatedRequest, res: Response) => {
   await noteController.createNote(req, res);
 });
 
-router.put('/:id', async (req: AuthenticatedRequest, res: Response) => {
+router.put("/:id", async (req: AuthenticatedRequest, res: Response) => {
   await noteController.updateNote(req, res);
 });
 
-router.delete('/:id', async (req: AuthenticatedRequest, res: Response) => {
+router.delete("/:id", async (req: AuthenticatedRequest, res: Response) => {
   await noteController.deleteNote(req, res);
 });
 
-router.put('/:id/archive', async (req: AuthenticatedRequest, res: Response) => {
+router.put("/:id/archive", async (req: AuthenticatedRequest, res: Response) => {
   await noteController.archiveNote(req, res);
 });
 
-export const noteRoutes = router; 
+export const noteRoutes = router;

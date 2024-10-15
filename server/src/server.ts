@@ -1,6 +1,6 @@
-import dotenv from 'dotenv';
-import app from './app';
-import { mongoConnection } from './config';
+import dotenv from "dotenv";
+import app from "./app";
+import { mongoConnection } from "./config";
 
 dotenv.config();
 
@@ -13,7 +13,7 @@ const startServer = async () => {
       console.log(`Server is running on port ${PORT}`);
     });
   } catch (error) {
-    console.error('Failed to start the server', error);
+    console.error("Failed to start the server", error);
     process.exit(1);
   }
 };

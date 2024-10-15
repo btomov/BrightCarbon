@@ -1,4 +1,4 @@
-import mongoose, { Schema } from 'mongoose';
+import mongoose, { Schema } from "mongoose";
 
 export type User = {
   username: string;
@@ -6,7 +6,7 @@ export type User = {
   passwordHash: string;
   createdAt: Date;
   updatedAt: Date;
-}
+};
 
 const userSchema: Schema = new Schema(
   {
@@ -14,7 +14,7 @@ const userSchema: Schema = new Schema(
     email: { type: String, required: true, unique: true },
     passwordHash: { type: String, required: true },
   },
-  { timestamps: true }
+  { timestamps: true },
 );
 
-export const User = mongoose.model<User>('user', userSchema);
+export const User = mongoose.model<User>("user", userSchema);

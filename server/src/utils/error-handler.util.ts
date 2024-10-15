@@ -1,4 +1,4 @@
-import { Response } from 'express';
+import { Response } from "express";
 
 export const handleError = (res: Response, error: unknown): void => {
   if (error instanceof Error) {

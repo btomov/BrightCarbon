@@ -1,10 +1,13 @@
-import { Request, Response } from 'express';
-import { Note, User, VersionHistory } from '../models';
-import { handleError } from '../utils';
-import { AuthenticatedRequest } from 'types/auth/AuthenticatedRequest.interface';
+import { Response } from "express";
+import { Note, User, VersionHistory } from "../models";
+import { handleError } from "../utils";
+import { AuthenticatedRequest } from "types/auth/AuthenticatedRequest.interface";
 
 export const noteController = {
-  async getAllNotes(req: AuthenticatedRequest, res: Response): Promise<Response | void> {
+  async getAllNotes(
+    req: AuthenticatedRequest,
+    res: Response,
+  ): Promise<Response | void> {
     try {
       const notes = await Note.find({ userId: req.user?.userId });
       return res.json(notes);
@@ -13,7 +16,10 @@ export const noteController = {
     }
   },
 
-  async getNoteById(req: AuthenticatedRequest, res: Response): Promise<Response | void> {
+  async getNoteById(
+    req: AuthenticatedRequest,
+    res: Response,
+  ): Promise<Response | void> {
     try {
       const note = await Note.findOne({
         _id: req.params.id,
@@ -34,7 +40,10 @@ export const noteController = {
     }
   },
 
-  async createNote(req: AuthenticatedRequest, res: Response): Promise<Response | void> {
+  async createNote(
+    req: AuthenticatedRequest,
+    res: Response,
+  ): Promise<Response | void> {
     try {
       if (!req.user) {
         return res.status(401).json({ error: "Unauthorized" });
@@ -52,7 +61,10 @@ export const noteController = {
     }
   },
 
-  async updateNote(req: AuthenticatedRequest, res: Response): Promise<Response | void> {
+  async updateNote(
+    req: AuthenticatedRequest,
+    res: Response,
+  ): Promise<Response | void> {
     try {
       const note = await Note.findById(req.params.id).lean();
 
@@ -84,10 +96,14 @@ export const noteController = {
       });
       await version.save();
 
-      const versionCount = await VersionHistory.countDocuments({ noteId: note._id });
+      const versionCount = await VersionHistory.countDocuments({
+        noteId: note._id,
+      });
       if (versionCount > 10) {
-        const oldestVersions = await VersionHistory.find({ noteId: note._id }).sort({ createdAt: 1 }).limit(versionCount - 10);
-        const oldestVersionIds = oldestVersions.map(v => v._id);
+        const oldestVersions = await VersionHistory.find({ noteId: note._id })
+          .sort({ createdAt: 1 })
+          .limit(versionCount - 10);
+        const oldestVersionIds = oldestVersions.map((v) => v._id);
         await VersionHistory.deleteMany({ _id: { $in: oldestVersionIds } });
       }
 
@@ -97,7 +113,10 @@ export const noteController = {
     }
   },
 
-  async deleteNote(req: AuthenticatedRequest, res: Response): Promise<Response | void> {
+  async deleteNote(
+    req: AuthenticatedRequest,
+    res: Response,
+  ): Promise<Response | void> {
     try {
       const note = await Note.findOne({
         _id: req.params.id,
@@ -117,7 +136,10 @@ export const noteController = {
     }
   },
 
-  async archiveNote(req: AuthenticatedRequest, res: Response): Promise<Response | void> {
+  async archiveNote(
+    req: AuthenticatedRequest,
+    res: Response,
+  ): Promise<Response | void> {
     try {
       const note = await Note.findOne({
         _id: req.params.id,
@@ -131,9 +153,11 @@ export const noteController = {
       note.isArchived = true;
       await note.save();
 
-      return res.status(200).json({ message: "Note archived successfully", note });
+      return res
+        .status(200)
+        .json({ message: "Note archived successfully", note });
     } catch (error) {
       return handleError(res, error);
     }
-  }
+  },
 };

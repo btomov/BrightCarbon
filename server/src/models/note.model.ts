@@ -1,4 +1,4 @@
-import mongoose, { Schema } from 'mongoose';
+import mongoose, { Schema } from "mongoose";
 
 export type Note = {
   id: string;
@@ -11,24 +11,28 @@ export type Note = {
   isArchived: boolean;
   createdAt: Date;
   updatedAt: Date;
-}
+};
 
 const noteSchema: Schema = new Schema(
   {
-    userId: { type: String, required: true, ref: 'User' },
+    userId: { type: String, required: true, ref: "User" },
     title: { type: String, required: true },
     content: { type: String, required: true },
     tags: [{ type: String }],
     isArchived: { type: Boolean, default: false },
-    version: {type: Number, default: 1}
+    version: { type: Number, default: 1 },
   },
-  { timestamps: true, toJSON: { virtuals: true }, toObject: { virtuals: true }  }
+  {
+    timestamps: true,
+    toJSON: { virtuals: true },
+    toObject: { virtuals: true },
+  },
 );
 
-noteSchema.virtual('versions', {
-  ref: 'VersionHistory',
-  localField: '_id',
-  foreignField: 'noteId',
+noteSchema.virtual("versions", {
+  ref: "VersionHistory",
+  localField: "_id",
+  foreignField: "noteId",
 });
 
-export const Note = mongoose.model<Note>('note', noteSchema);
+export const Note = mongoose.model<Note>("note", noteSchema);
