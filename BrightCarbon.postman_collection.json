@@ -1,0 +1,397 @@
+{
+	"info": {
+		"_postman_id": "985789ef-70e7-4769-ae6d-9d5160c9b18d",
+		"name": "BrightCarbon",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "31866462"
+	},
+	"item": [
+		{
+			"name": "Notes",
+			"item": [
+				{
+					"name": "Get single note",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/notes/:noteId",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"notes",
+								":noteId"
+							],
+							"variable": [
+								{
+									"key": "noteId",
+									"value": "670d394a70e1506e4f4942f7"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get all notes for user",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/notes",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"notes"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create note",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"title\": \"Note title 1\",\r\n    \"content\": \"Note content 1\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/notes",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"notes"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update note",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NzBiN2QyZjQ0M2UxOGQ4ZDA0NjdiN2MiLCJlbWFpbCI6ImFkbWluQGFkbWluLmNvbSIsImlhdCI6MTcyODgxMTcyMSwiZXhwIjoxNzI4ODE1MzIxfQ.WAZfSWsPjEnlfoLH-pFfsgxAg32xno_Sdfo0NmNrhC8",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"title\": \"Updated title\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/notes/670b92d3f7ca5778e6159372",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"notes",
+								"670b92d3f7ca5778e6159372"
+							],
+							"query": [
+								{
+									"key": "",
+									"value": null,
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Archive note",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/notes/:noteId/archive",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"notes",
+								":noteId",
+								"archive"
+							],
+							"query": [
+								{
+									"key": "",
+									"value": null,
+									"disabled": true
+								}
+							],
+							"variable": [
+								{
+									"key": "noteId",
+									"value": ""
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete note",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/notes/670b9e12c10cc7b6e7d2a5a8",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"notes",
+								"670b9e12c10cc7b6e7d2a5a8"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Auth",
+			"item": [
+				{
+					"name": "Register",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"username\": \"Boyan\",\r\n    \"password\" : \"admin\",\r\n    \"email\": \"admin@admin.com\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/auth/register",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"auth",
+								"register"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Login",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"// Parse the JSON response body\r",
+									"var jsonData = pm.response.json();\r",
+									"\r",
+									"// Set the access_token in the environment variable if it exists\r",
+									"if (jsonData.token) {\r",
+									"    pm.environment.set(\"access_token\", jsonData.token);\r",
+									"}"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"password\" : \"admin\",\r\n    \"email\": \"admin@admin.com\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/auth/login",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"auth",
+								"login"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Note Versions",
+			"item": [
+				{
+					"name": "Get versions for note",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/versions/:noteId",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"versions",
+								":noteId"
+							],
+							"variable": [
+								{
+									"key": "noteId",
+									"value": "670d35c7ef0b8c63f0e3b7fd"
+								}
+							]
+						},
+						"description": "Generated from cURL: curl -X GET \"{{baseUrl}}/version-history/:noteId/versions\" \\\n  -H \"Authorization: Bearer {{token}}\"\n"
+					},
+					"response": []
+				},
+				{
+					"name": "Restore Note Version",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/versions/:noteId/:versionId/restore",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"versions",
+								":noteId",
+								":versionId",
+								"restore"
+							],
+							"variable": [
+								{
+									"key": "noteId",
+									"value": "670d35c7ef0b8c63f0e3b7fd"
+								},
+								{
+									"key": "versionId",
+									"value": "670d36fbef0b8c63f0e3b804"
+								}
+							]
+						},
+						"description": "Generated from cURL: curl -X PUT \"{{baseUrl}}/version-history/:noteId/versions/:versionId/restore\" \\\n  -H \"Authorization: Bearer {{token}}\" \\\n  -H \"Content-Type: application/json\"\n"
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Note Versions",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/versions/:noteId",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"versions",
+								":noteId"
+							],
+							"variable": [
+								{
+									"key": "noteId",
+									"value": ""
+								}
+							]
+						},
+						"description": "Generated from cURL: curl -X DELETE \"{{baseUrl}}/version-history/:noteId/versions\" \\\n  -H \"Authorization: Bearer {{token}}\"\n"
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"auth": {
+		"type": "bearer",
+		"bearer": [
+			{
+				"key": "token",
+				"value": "{{access_token}}",
+				"type": "string"
+			}
+		]
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "baseUrl",
+			"value": "http://localhost:5000",
+			"type": "default"
+		}
+	]
+}

@@ -9,6 +9,8 @@ import { noteRoutes, authRoutes, versionHistoryRoutes } from "./routes";
 import { verifyToken } from "./utils/auth.util";
 import swaggerUi from 'swagger-ui-express';
 import yaml from 'yamljs';
+import { sanitizeInputMiddleware } from "./middleware/sanitizeInput.middleware";
+
 const swaggerDocument = yaml.load('./src/swagger.yaml');
 
 const app: Application = express();
@@ -41,6 +43,8 @@ const generalLimiter = rateLimit({
   max: 100,
   message: "Too many requests, please try again later.",
 });
+
+app.use(sanitizeInputMiddleware);
 
 app.use("/auth", authLimiter, authRoutes);
 app.use("/notes", generalLimiter, noteRoutes);

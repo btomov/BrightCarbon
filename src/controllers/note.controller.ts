@@ -3,6 +3,8 @@ import { Note, User, VersionHistory } from "../models";
 import { handleError } from "../utils";
 import { AuthenticatedRequest } from "types/auth/AuthenticatedRequest.interface";
 
+const MAX_NOTE_VERSIONS = 10;
+
 export const noteController = {
   async getAllNotes(
     req: AuthenticatedRequest,
@@ -82,6 +84,7 @@ export const noteController = {
         version: note.version + 1,
       };
 
+      // Use updateOne instead of .save() here because updatedNote isn't a mongoose entity
       await Note.updateOne({ _id: req.params.id }, updatedNote, {
         new: true,
         runValidators: true,
@@ -96,13 +99,14 @@ export const noteController = {
       });
       await version.save();
 
+      // Limit versions to MAX_NOTE_VERSIONS to prevent the DB from getting too big
       const versionCount = await VersionHistory.countDocuments({
         noteId: note._id,
       });
-      if (versionCount > 10) {
+      if (versionCount > MAX_NOTE_VERSIONS) {
         const oldestVersions = await VersionHistory.find({ noteId: note._id })
           .sort({ createdAt: 1 })
-          .limit(versionCount - 10);
+          .limit(versionCount - MAX_NOTE_VERSIONS);
         const oldestVersionIds = oldestVersions.map((v) => v._id);
         await VersionHistory.deleteMany({ _id: { $in: oldestVersionIds } });
       }
@@ -127,6 +131,7 @@ export const noteController = {
         return res.status(404).json({ error: "Note not found for this user" });
       }
 
+      // Upon deleting a note we assume we won't be needing its history anymore
       await Note.deleteOne({ _id: req.params.id });
       await VersionHistory.deleteMany({ noteId: req.params.id });
 
