@@ -11,15 +11,7 @@
     "skipLibCheck": true,
     "forceConsistentCasingInFileNames": true,
     "resolveJsonModule": true,
-    "moduleResolution": "node",
-    "paths": {
-      "@utils/*": [
-        "utils/*"
-      ],
-      "@utils": [
-        "utils/index.ts"
-      ],
-    },
+    "moduleResolution": "node"
   },
   "include": [
     "src/**/*.ts"

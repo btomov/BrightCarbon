@@ -5,7 +5,6 @@ import morgan from "morgan";
 import { json, urlencoded } from "body-parser";
 import rateLimit from "express-rate-limit";
 import { noteRoutes, authRoutes, versionHistoryRoutes } from "./routes";
-// Fix @utils not working TODO
 import { verifyToken } from "./utils/auth.util";
 import swaggerUi from 'swagger-ui-express';
 import yaml from 'yamljs';
