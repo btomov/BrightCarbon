@@ -8,13 +8,11 @@ A note taking API for BrightCarbon's Senior Backend Developer Interview.
 To run this project you'll need the following pre-requisites:
 
 - NodeJS (Recommend v22)
-- MongoDB
 
 ### To start the project, follow these steps:
 ```bash
   npm install
-  Create a new database called BrightCarbon (or a name of your choosing) 
-  Copy the .env.example file, rename to .env, replace with your MongoDB connection string (or just the DB name)
+  Copy the .env.example file, rename to .env. You can either make your own local DB or use the existing one
   npm run dev
 ```
 On your initial start the DB will be empty. Try registering a user and logging in.
